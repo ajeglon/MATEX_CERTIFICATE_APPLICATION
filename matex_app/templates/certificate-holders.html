@@ -1,0 +1,10 @@
+<h1>Certificate Holders</h1>
+
+{% for holder in cert_holders %}
+    <strong>{{ holder.nhs_number }}</strong> <br/>
+    <strong>{{ holder.first_name }} {{ holder.last_name }}</strong><br/>
+    Email: {{ holder.email }}<br/>
+    Date of Birth: {{ holder.date_of_birth }}
+    <hr/>
+
+{% endfor %}

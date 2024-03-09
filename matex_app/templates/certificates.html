@@ -1,0 +1,12 @@
+<h1>Certificates</h1>
+
+{% for cert in certs %}
+    <strong>{{ cert.certificate_holder }}</strong> <br/>
+    <strong>{{ cert.certificate_number }}</strong><br/>
+    Start Date: {{ cert.certificate_start_date }}<br/>
+    Duration: {{ cert.certificate_duration }}<br/>
+    End Date: {{ cert.certificate_expiration_date }}<br/>
+    Certificate Status: {{ cert.certificate_active }}
+    <hr/>
+
+{% endfor %}
