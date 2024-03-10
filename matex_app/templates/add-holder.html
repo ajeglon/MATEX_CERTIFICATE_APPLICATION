@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Add Certificate Holder</h1>
+  <br/>
+  <form method="POST" action="{% url 'addholder' %">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="NHSNumber" class="form-label">NHS Number</label>
+      <input type="number" class="form-control" id="NHSNumber" placeholder="Enter NHS Number" name="nhs_number">
+    </div>
+    <div class="mb-3">
+      <label for="FirstName" class="form-label">First Name</label>
+      <input type="text" class="form-control" id="FirstName" placeholder="Enter First Name" name="first_name">
+    </div>
+    <div class="mb-3">
+      <label for="LastName" class="form-label">First Name</label>
+      <input type="text" class="form-control" id="LastName" placeholder="Enter Last Name" name="last_name">
+    </div>
+    <div class="mb-3">
+      <label for="Email" class="form-label">Email address</label>
+      <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" placeholder="Enter Email Address" name="email">
+    </div>
+    <div class="mb-3">
+      <label for="DoB" class="form-label">Date of Birth</label>
+      <input type="date" class="form-control" id="Dob" aria-describedby="Date of Birth" placeholder="Enter Date of Birth" name="date_of_birth">
+    </div>
+    <br/>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+{% endblock content %}

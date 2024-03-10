@@ -16,3 +16,7 @@ def certificateholders(request):
 def certificates(request):
     all_certificates = CertificateInfo.objects.all()
     return render(request, 'certificates.html', {'certs': all_certificates})
+
+
+def addholder(request):
+    return render(request, 'add-holder.html', {})

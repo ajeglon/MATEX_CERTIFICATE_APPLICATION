@@ -20,3 +20,5 @@ class CertificateInfo(models.Model):
     certificate_duration = models.DurationField()
     certificate_expiration_date = models.DateField()
     certificate_active = models.BooleanField()
+
+
