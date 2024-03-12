@@ -7,12 +7,24 @@
     <a class="btn btn-primary btn-lg" href="{% url 'add-holder' %}" role="button">Add new certificate holder</a><br/>
 </div>
 <br/>
-{% for holder in cert_holders %}
-    <strong>{{ holder.nhs_number }}</strong> <br/>
-    <strong>{{ holder.first_name }} {{ holder.last_name }}</strong><br/>
-    Email: {{ holder.email }}<br/>
-    Date of Birth: {{ holder.date_of_birth }}
-<hr/>
-
-{% endfor %}
+<table class="table table-striped table-hover table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">NHS Number</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Date of Birth</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% if cert_holders %}
+    {% for holder in cert_holders %}
+        <tr>
+			<td><a href="{% url 'holder-info' holder.nhs_number %}">{{ holder.nhs_number }}<a/></td>
+			<td>{{ holder.first_name }} {{ holder.last_name }}</td>
+			<td>{{ holder.email }}</td>
+			<td>{{ holder.date_of_birth }}</td>
+		</tr>
+    {% endfor %}
+{% endif %}
 {% endblock content %}

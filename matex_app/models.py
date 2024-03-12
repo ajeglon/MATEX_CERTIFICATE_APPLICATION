@@ -21,4 +21,7 @@ class CertificateInfo(models.Model):
     certificate_expiration_date = models.DateField()
     certificate_active = models.BooleanField()
 
+    def __str__(self):
+        return str(self.certificate_number) + " - " + f'{self.certificate_holder}'
+
 

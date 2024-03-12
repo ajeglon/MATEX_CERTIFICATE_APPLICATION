@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card">
+    <div class="card-header"><strong>
+        NHS Number: {{ holder_record.nhs_number }}
+       </strong>
+    </div>
+    <div class="card-body">
+
+        <p class="card-text">
+            <strong>First Name: </strong>{{ holder_record.first_name }}
+        </p>
+        <p class="card-text">
+            <strong>Last Name: </strong>{{ holder_record.last_name }}
+        </p>
+        <p class="card-text">
+            <strong>Email: </strong>{{ holder_record.email }}
+        </p>
+
+        <p class="card-text">
+            <strong>Date of Birth: </strong>{{ holder_record.date_of_birth }}
+        </p>
+    </div>
+</div>
+
+<br/><br/>
+<a href="{% url 'certificate-holders' %}" class="btn btn-secondary">Back</a>
+
+{% endblock %}

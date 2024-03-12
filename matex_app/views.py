@@ -4,6 +4,7 @@ from .models import CertificateInfo
 from .forms import CertificateHolderForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from .forms import RegistrationForm
 
 
 # Create your views here.
@@ -63,4 +64,27 @@ def logout_user(request):
 
 
 def register_user(request):
-    return render(request, 'register.html', {})
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, 'User has been successfully registered')
+            return redirect('index')
+    else:
+        form = RegistrationForm()
+        return render(request, 'register.html', {'form': form})
+
+    return render(request, 'register.html', {'form': form})
+
+
+def holder_info(request, pk):
+    if request.user.is_authenticated:
+        holder_record = CertificateHolder.objects.get(nhs_number=pk)
+        return render(request, 'holder-info.html', {'holder_record': holder_record})
+    else:
+        messages.success(request, 'Please log in to view this page')
+        return redirect('index')
