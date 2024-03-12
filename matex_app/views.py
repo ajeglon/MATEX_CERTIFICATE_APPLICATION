@@ -35,26 +35,32 @@ def certificates(request):
 
 
 def addholder(request):
-    if request.method == 'POST':
-        form = CertificateHolderForm(request.POST or None)
-        if form.is_valid():
-            form.save()
+    form = CertificateHolderForm(request.POST or None)
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Certificate Holder added successfully")
+                return redirect('certificate-holders')
+            else:
+                nhs_number = request.POST['nhs_number']
+                first_name = request.POST['first_name']
+                last_name = request.POST['last_name']
+                email = request.POST['email']
+                date_of_birth = request.POST['date_of_birth']
+                messages.success(request, 'Error, please check all the fields have been correctly submitted')
+                return render(request, 'add-holder.html', {'nhs_number': nhs_number,
+                                                           'first_name': first_name,
+                                                           'last_name': last_name,
+                                                           'email': email,
+                                                           'date_of_birth': date_of_birth})
+            messages.success(request, 'Certificate Holder Details Successfully Added')
+            return redirect('certificate-holders')
         else:
-            nhs_number = request.POST['nhs_number']
-            first_name = request.POST['first_name']
-            last_name = request.POST['last_name']
-            email = request.POST['email']
-            date_of_birth = request.POST['date_of_birth']
-            messages.success(request, 'Error, please check all the fields have been correctly submitted')
-            return render(request, 'add-holder.html', {'nhs_number': nhs_number,
-                                                       'first_name': first_name,
-                                                       'last_name': last_name,
-                                                       'email': email,
-                                                       'date_of_birth': date_of_birth})
-        messages.success(request, 'Certificate Holder Details Successfully Added')
-        return redirect('certificate-holders')
+            return render(request, 'add-holder.html', {})
     else:
-        return render(request, 'add-holder.html', {})
+        messages.success(request, "You Must Be Logged In")
+        return redirect('index')
 
 
 def logout_user(request):
@@ -88,3 +94,14 @@ def holder_info(request, pk):
     else:
         messages.success(request, 'Please log in to view this page')
         return redirect('index')
+
+
+def delete_cert_holder(request, pk):
+    if request.user.is_authenticated:
+        delete_info = CertificateHolder.objects.get(nhs_number=pk)
+        delete_info.delete()
+        messages.success(request, 'Certificate holder deleted successfully')
+        return redirect('certificate-holders')
+    else:
+        messages.success(request, "Please login to delete")
+    return redirect('certificate-holders')

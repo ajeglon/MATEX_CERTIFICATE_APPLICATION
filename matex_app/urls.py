@@ -8,5 +8,6 @@ urlpatterns = [
     path('add-holder', views.addholder, name='add-holder'),
     path('logout/', views.logout_user, name='logout'),
     path('register/', views.register_user, name='register'),
-    path('holder-info/<int:pk>/', views.holder_info, name='holder-info')
+    path('holder-info/<int:pk>/', views.holder_info, name='holder-info'),
+    path('delete_cert_holder/<int:pk>/', views.delete_cert_holder, name='delete-holder-info')
 ]
