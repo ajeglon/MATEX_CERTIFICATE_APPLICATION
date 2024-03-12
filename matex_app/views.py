@@ -1,12 +1,26 @@
 from django.shortcuts import render, redirect
 from .models import CertificateHolder
 from .models import CertificateInfo
-from . forms import CertificateHolderForm
+from .forms import CertificateHolderForm
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+
 
 # Create your views here.
 def index(request):
-    return render(request, 'index.html', {})
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'Succesfully logged in')
+            return redirect('index')
+        else:
+            messages.success(request, 'There was an error loggin in, please try again')
+            return redirect('index')
+    else:
+        return render(request, 'index.html', {})
 
 
 def certificateholders(request):
@@ -40,3 +54,13 @@ def addholder(request):
         return redirect('certificate-holders')
     else:
         return render(request, 'add-holder.html', {})
+
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, 'You have been logged out')
+    return redirect('index')
+
+
+def register_user(request):
+    return render(request, 'register.html', {})
