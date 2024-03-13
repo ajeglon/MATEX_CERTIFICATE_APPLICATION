@@ -26,8 +26,10 @@
 
 <br/><br/>
 
-<a href="{% url 'delete-holder-info' holder_record.nhs_number %}" class="btn btn-danger">Delete</a>
-
 <a href="{% url 'certificate-holders' %}" class="btn btn-secondary">Back</a>
+
+<a href="{% url 'update-holder-info' holder_record.nhs_number %}" class="btn btn-secondary">Update Holder</a>
+
+<a href="{% url 'delete-holder-info' holder_record.nhs_number %}" class="btn btn-danger">Delete</a>
 
 {% endblock %}

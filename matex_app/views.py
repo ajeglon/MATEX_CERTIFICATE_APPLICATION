@@ -25,13 +25,21 @@ def index(request):
 
 
 def certificateholders(request):
-    all_certificate_holders = CertificateHolder.objects.all()
-    return render(request, 'certificate-holders.html', {'cert_holders': all_certificate_holders})
+    if request.user.is_authenticated:
+        all_certificate_holders = CertificateHolder.objects.all()
+        return render(request, 'certificate-holders.html', {'cert_holders': all_certificate_holders})
+    else:
+        messages.success(request, 'Please log in to view this page')
+        return redirect('index')
 
 
 def certificates(request):
-    all_certificates = CertificateInfo.objects.all()
-    return render(request, 'certificates.html', {'certs': all_certificates})
+    if request.user.is_authenticated:
+        all_certificates = CertificateInfo.objects.all()
+        return render(request, 'certificates.html', {'certs': all_certificates})
+    else:
+        messages.success(request, 'Please log in to view this page')
+        return redirect('index')
 
 
 def addholder(request):
@@ -104,4 +112,19 @@ def delete_cert_holder(request, pk):
         return redirect('certificate-holders')
     else:
         messages.success(request, "Please login to delete")
-    return redirect('certificate-holders')
+        return redirect('certificate-holders')
+
+
+def update_cert_holder(request, pk):
+    if request.user.is_authenticated:
+        current_record = CertificateHolder.objects.get(nhs_number=pk)
+        form = CertificateHolderForm(request.POST or None, instance=current_record)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Certificate Holder updated successfully')
+            return redirect('certificate-holders')
+        return render(request, 'update-certificate-holder.html', {'form': form})
+    else:
+        messages.success(request, "Please login to delete")
+        return redirect('certificate-holders')
+
