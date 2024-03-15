@@ -43,3 +43,10 @@ class CertificateHolderForm(forms.ModelForm):
     class Meta:
         model = CertificateHolder
         fields = '__all__'
+
+
+class CertificateInfoForm(forms.ModelForm):
+
+    class Meta:
+        model = CertificateInfo
+        fields = '__all__'

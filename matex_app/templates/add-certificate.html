@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="text-center">Add Certificate Holder</h1>
+<h1 class="text-center">Add Certificate</h1>
 <br/>
-<form method="POST" action="{% url 'add-holder' %}">
+<form method="POST" action="{% url 'add-certificate' %}">
     {% csrf_token %}
 
     {{ form.as_p }}
