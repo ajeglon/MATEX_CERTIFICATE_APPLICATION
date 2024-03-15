@@ -17,9 +17,7 @@ class CertificateInfo(models.Model):
     certificate_holder = models.ForeignKey(CertificateHolder,on_delete=models.CASCADE)
     certificate_number = models.AutoField(primary_key=True)
     certificate_start_date = models.DateField()
-    certificate_duration = models.DurationField()
     certificate_expiration_date = models.DateField()
-    certificate_active = models.BooleanField()
 
     def __str__(self):
         return str(self.certificate_number) + " - " + f'{self.certificate_holder}'

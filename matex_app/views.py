@@ -1,10 +1,10 @@
+from datetime import timedelta
+
 from django.shortcuts import render, redirect
-from .models import CertificateHolder
-from .models import CertificateInfo
-from .forms import CertificateHolderForm, CertificateInfoForm
+from .models import CertificateHolder, CertificateInfo
+from .forms import CertificateHolderForm, CertificateInfoForm, RegistrationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .forms import RegistrationForm
 
 
 # Create your views here.
@@ -45,29 +45,14 @@ def certificates(request):
 def addholder(request):
     form = CertificateHolderForm(request.POST or None)
     if request.user.is_authenticated:
-        if request.method == 'POST':
+        if request.method == "POST":
             if form.is_valid():
-                form.save()
-                messages.success(request, "Certificate Holder added successfully")
+                add_holder = form.save()
+                messages.success(request, "Holder Added Successfully")
                 return redirect('certificate-holders')
-            else:
-                nhs_number = request.POST['nhs_number']
-                first_name = request.POST['first_name']
-                last_name = request.POST['last_name']
-                email = request.POST['email']
-                date_of_birth = request.POST['date_of_birth']
-                messages.success(request, 'Error, please check all the fields have been correctly submitted')
-                return render(request, 'add-holder.html', {'nhs_number': nhs_number,
-                                                           'first_name': first_name,
-                                                           'last_name': last_name,
-                                                           'email': email,
-                                                           'date_of_birth': date_of_birth})
-            messages.success(request, 'Certificate Holder Details Successfully Added')
-            return redirect('certificate-holders')
-        else:
-            return render(request, 'add-holder.html', {})
+        return render(request, 'add-holder.html', {'form': form})
     else:
-        messages.success(request, "You Must Be Logged In")
+        messages.success(request, "Please log in to view this page")
         return redirect('index')
 
 
@@ -105,7 +90,7 @@ def holder_info(request, pk):
 
 
 def delete_cert_holder(request, pk):
-    if request.user.is_authenticated:
+    if request.user.is_superuser:
         delete_info = CertificateHolder.objects.get(id=pk)
         delete_info.delete()
         messages.success(request, 'Certificate holder deleted successfully')
@@ -138,31 +123,41 @@ def certificate_info(request, pk):
         return redirect('index')
 
 
-def addcertificate(request):
+def add_certificate(request):
     form = CertificateInfoForm(request.POST or None)
     if request.user.is_authenticated:
-        if request.method == 'POST':
+        if request.method == "POST":
             if form.is_valid():
-                form.save()
-                messages.success(request, "Certificate added successfully")
+                request.certificate_expiration_date = request.certificate_start_date + timedelta(days=365)
+                add_certificate = form.save()
+                messages.success(request, "Certificate Added Successfully")
                 return redirect('certificates')
-            else:
-                certificate_holder = request.POST['certificate_holder']
-                certificate_start_date = request.POST['certificate_start_date']
-                certificate_duration = request.POST['certificate_duration']
-                certificate_expiration_date = request.POST['certificate_expiration_date']
-                certificate_active = request.POST['certificate_active']
-                messages.success(request, 'Error, please check all the fields have been correctly submitted')
-                return render(request, 'add-certificate.html', {
-                    'certificate_holder': certificate_holder,
-                    'certificate_start_date': certificate_start_date,
-                    'certificate_duration': certificate_duration,
-                    'certificate_expiration_date': certificate_expiration_date,
-                    'certificate_active': certificate_active})
-            messages.success(request, 'Certificate Details Successfully Added')
-            return redirect('certificates')
-        else:
-            return render(request, 'add-certificate.html', {})
+        return render(request, 'add-certificate.html', {'form': form})
     else:
-        messages.success(request, "You Must Be Logged In")
+        messages.success(request, "Please log in to view this page")
         return redirect('index')
+
+
+def delete_certificate(request, pk):
+    if request.user.is_authenticated:
+        delete_cert = CertificateInfo.objects.get(certificate_number=pk)
+        delete_cert.delete()
+        messages.success(request, 'Certificate deleted successfully')
+        return redirect('certificates')
+    else:
+        messages.success(request, "Please login to delete")
+        return redirect('certificates')
+
+
+def update_certificate(request, pk):
+    if request.user.is_authenticated:
+        current_record = CertificateInfo.objects.get(id=pk)
+        form = CertificateHolderForm(request.POST or None, instance=current_record)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Certificate Holder updated successfully')
+            return redirect('certificate-holders')
+        return render(request, 'update-certificate-holder.html', {'form': form})
+    else:
+        messages.success(request, "Please login to delete")
+        return redirect('certificate-holders')

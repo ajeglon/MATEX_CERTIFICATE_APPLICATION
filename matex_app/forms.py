@@ -40,13 +40,26 @@ class RegistrationForm(UserCreationForm):
 
 
 class CertificateHolderForm(forms.ModelForm):
+    nhs_number = forms.CharField(required=True, widget=forms.widgets.TextInput(
+        attrs={"placeholder": "NHS Number", "class": "form-control"}), label="")
+    first_name = forms.CharField(required=True, widget=forms.widgets.TextInput(
+        attrs={"placeholder": "First Name", "class": "form-control"}), label="")
+    last_name = forms.CharField(required=True, widget=forms.widgets.TextInput(
+        attrs={"placeholder": "Last name", "class": "form-control"}), label="")
+    email = forms.CharField(required=True, widget=forms.widgets.TextInput(
+        attrs={"placeholder": "Email Address", "class": "form-control"}), label="")
+    date_of_birth = forms.CharField(required=True, widget=forms.widgets.TextInput(
+        attrs={"placeholder": "Date of Birth", "class": "form-control"}), label="")
+
     class Meta:
         model = CertificateHolder
         fields = '__all__'
 
 
 class CertificateInfoForm(forms.ModelForm):
+    certificate_start_date = forms.CharField(required=True, widget=forms.widgets.TextInput(
+        attrs={"placeholder": "Start Date", "class": "form-control"}), label="")
 
     class Meta:
         model = CertificateInfo
-        fields = '__all__'
+        exclude = ['certificate_duration', 'certificate_expiration_date']

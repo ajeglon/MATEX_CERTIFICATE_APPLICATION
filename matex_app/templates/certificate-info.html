@@ -20,13 +20,11 @@
         <p class="card-text">
             <strong>Active: </strong>{{ certificate_record.certificate_active }}
         </p>
-
-        <p class="card-text">
-            <strong>Date of Birth: </strong>{{ holder_record.date_of_birth }}
-        </p>
     </div>
 </div>
 
 <a href="{% url 'certificates' %}" class="btn btn-secondary">Back</a>
+
+<a href="{% url 'delete-certificate' certificate_record.certificate_number %}" class="btn btn-danger">Delete</a>
 
 {% endblock %}
