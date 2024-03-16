@@ -3,6 +3,10 @@ Software Engineering Assignment
 
 **Getting started**
 
+**Admin User: Admin**
+
+**Admin Password: MATEXADMINn**
+
 **Requirements:**
 - [python](https://www.python.org)
 
