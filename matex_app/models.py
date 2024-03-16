@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime, timedelta
 
 
 # Create your models here.
@@ -14,12 +15,15 @@ class CertificateHolder(models.Model):
 
 
 class CertificateInfo(models.Model):
-    certificate_holder = models.ForeignKey(CertificateHolder,on_delete=models.CASCADE)
+    certificate_holder = models.ForeignKey(CertificateHolder, on_delete=models.CASCADE)
     certificate_number = models.AutoField(primary_key=True)
-    certificate_start_date = models.DateField()
-    certificate_expiration_date = models.DateField()
+    certificate_start_date = models.DateField(null=True)
+    certificate_expiration_date = models.DateTimeField()
 
     def __str__(self):
         return str(self.certificate_number) + " - " + f'{self.certificate_holder}'
 
-
+    def save(self, *args, **kwargs):
+        if not self.certificate_number:
+            self.certificate_expiration_date = datetime.now() + timedelta(days=160)
+        super().save(*args, **kwargs)

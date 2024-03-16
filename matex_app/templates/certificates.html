@@ -14,9 +14,7 @@
         <th scope="col">Certificate Number</th>
         <th scope="col">Certificate Holder</th>
         <th scope="col">Start Date</th>
-        <th scope="col">Duration</th>
         <th scope="col">Expiration Date</th>
-        <th scope="col">Active</th>
     </tr>
     </thead>
     <tbody>
@@ -26,9 +24,7 @@
         <td><a href="{% url 'certificate-info' cert.certificate_number %}">{{ cert.certificate_number }}</a></td>
         <td>{{ cert.certificate_holder }}</td>
         <td>{{ cert.certificate_start_date }}</td>
-        <td>{{ cert.certificate_duration }}</td>
         <td>{{ cert.certificate_expiration_date }}</td>
-        <td>{{ cert.certificate_active }}</td>
     </tr>
     {% endfor %}
     {% endif %}

@@ -96,7 +96,7 @@ def delete_cert_holder(request, pk):
         messages.success(request, 'Certificate holder deleted successfully')
         return redirect('certificate-holders')
     else:
-        messages.success(request, "Please login to delete")
+        messages.success(request, "Admin login required")
         return redirect('certificate-holders')
 
 
@@ -110,7 +110,7 @@ def update_cert_holder(request, pk):
             return redirect('certificate-holders')
         return render(request, 'update-certificate-holder.html', {'form': form})
     else:
-        messages.success(request, "Please login to delete")
+        messages.success(request, "Please login to update")
         return redirect('certificate-holders')
 
 
@@ -124,14 +124,16 @@ def certificate_info(request, pk):
 
 
 def add_certificate(request):
-    form = CertificateInfoForm(request.POST or None)
     if request.user.is_authenticated:
         if request.method == "POST":
+            form = CertificateInfoForm(request.POST)
             if form.is_valid():
-                request.certificate_expiration_date = request.certificate_start_date + timedelta(days=365)
-                add_certificate = form.save()
+                certificate = form.save()
                 messages.success(request, "Certificate Added Successfully")
+
                 return redirect('certificates')
+        else:
+            form = CertificateInfoForm(request.POST)
         return render(request, 'add-certificate.html', {'form': form})
     else:
         messages.success(request, "Please log in to view this page")
@@ -139,25 +141,25 @@ def add_certificate(request):
 
 
 def delete_certificate(request, pk):
-    if request.user.is_authenticated:
+    if request.user.is_superuser:
         delete_cert = CertificateInfo.objects.get(certificate_number=pk)
         delete_cert.delete()
         messages.success(request, 'Certificate deleted successfully')
         return redirect('certificates')
     else:
-        messages.success(request, "Please login to delete")
+        messages.success(request, "Admin login required")
         return redirect('certificates')
 
 
 def update_certificate(request, pk):
     if request.user.is_authenticated:
-        current_record = CertificateInfo.objects.get(id=pk)
-        form = CertificateHolderForm(request.POST or None, instance=current_record)
+        current_record = CertificateInfo.objects.get(certificate_number=pk)
+        form = CertificateInfoForm(request.POST or None, instance=current_record)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Certificate Holder updated successfully')
-            return redirect('certificate-holders')
-        return render(request, 'update-certificate-holder.html', {'form': form})
+            messages.success(request, 'Certificate updated successfully')
+            return redirect('certificates')
+        return render(request, 'update-certificate.html', {'form': form})
     else:
-        messages.success(request, "Please login to delete")
-        return redirect('certificate-holders')
+        messages.success(request, "Please login to update")
+        return redirect('certificates')

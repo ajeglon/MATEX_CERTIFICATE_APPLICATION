@@ -25,6 +25,8 @@
 
 <a href="{% url 'certificates' %}" class="btn btn-secondary">Back</a>
 
+<a href="{% url 'update-certificate' certificate_record.certificate_number %}" class="btn btn-secondary">Update Certificate</a>
+
 <a href="{% url 'delete-certificate' certificate_record.certificate_number %}" class="btn btn-danger">Delete</a>
 
 {% endblock %}

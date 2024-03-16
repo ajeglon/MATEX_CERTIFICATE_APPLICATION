@@ -3,6 +3,7 @@ from .models import CertificateHolder
 from .models import CertificateInfo
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.db import models
 
 
 class RegistrationForm(UserCreationForm):
@@ -48,8 +49,7 @@ class CertificateHolderForm(forms.ModelForm):
         attrs={"placeholder": "Last name", "class": "form-control"}), label="")
     email = forms.CharField(required=True, widget=forms.widgets.TextInput(
         attrs={"placeholder": "Email Address", "class": "form-control"}), label="")
-    date_of_birth = forms.CharField(required=True, widget=forms.widgets.TextInput(
-        attrs={"placeholder": "Date of Birth", "class": "form-control"}), label="")
+    date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
 
     class Meta:
         model = CertificateHolder
@@ -57,9 +57,9 @@ class CertificateHolderForm(forms.ModelForm):
 
 
 class CertificateInfoForm(forms.ModelForm):
-    certificate_start_date = forms.CharField(required=True, widget=forms.widgets.TextInput(
-        attrs={"placeholder": "Start Date", "class": "form-control"}), label="")
+    certificate_start_date = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
 
     class Meta:
         model = CertificateInfo
-        exclude = ['certificate_duration', 'certificate_expiration_date']
+        fields = '__all__'
+        exclude = ['certificate_expiration_date', 'certificate_number']
