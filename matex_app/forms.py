@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django import forms
 from .models import CertificateHolder
 from .models import CertificateInfo
@@ -42,13 +44,13 @@ class RegistrationForm(UserCreationForm):
 
 class CertificateHolderForm(forms.ModelForm):
     nhs_number = forms.CharField(required=True, widget=forms.widgets.TextInput(
-        attrs={"placeholder": "NHS Number", "class": "form-control"}), label="")
+        attrs={"placeholder": "Enter NHS Number", "class": "form-control"}), label='NHS number - 10 digits')
     first_name = forms.CharField(required=True, widget=forms.widgets.TextInput(
-        attrs={"placeholder": "First Name", "class": "form-control"}), label="")
+        attrs={"placeholder": "Enter First Name", "class": "form-control"}), label="First name")
     last_name = forms.CharField(required=True, widget=forms.widgets.TextInput(
-        attrs={"placeholder": "Last name", "class": "form-control"}), label="")
+        attrs={"placeholder": "Enter Last name", "class": "form-control"}), label="Last name")
     email = forms.CharField(required=True, widget=forms.widgets.TextInput(
-        attrs={"placeholder": "Email Address", "class": "form-control"}), label="")
+        attrs={"placeholder": "Enter Email Address", "class": "form-control"}), label="Email address")
     date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
 
     class Meta:

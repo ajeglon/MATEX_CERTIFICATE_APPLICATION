@@ -8,28 +8,27 @@
     {% if user.is_authenticated %}
     <a class="btn btn-primary btn-lg" href="{% url 'certificate-holders' %}" role="button">View Certificate Holders</a>
     <a class="btn btn-primary btn-lg" href="{% url 'certificates' %}" role="button">View Certificates</a>
-
-    {% else %}
-
-    <h2>Login</h2>
-    <br/>
-    <form method="POST" action="{% url 'index' %}">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" aria-describedby="username"
-                   placeholder="Enter username" name="username" required>
-        </div>
-        <br/>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password" name="password" required>
-        </div>
-        <br/>
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
-
 </div>
+
+{% else %}
+
+<h2>Login</h2>
+<br/>
+<form method="POST" action="{% url 'index' %}">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" aria-describedby="username"
+               placeholder="Enter username" name="username" required>
+    </div>
+    <br/>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="Password" name="password" required>
+    </div>
+    <br/>
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
 
 {% endif %}
 
