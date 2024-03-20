@@ -1,5 +1,7 @@
 # MATEXAPPLICATION
-Software Engineering Assignment
+**Software Engineering Assignment**
+
+An application to be used by NHSBSA employees to Create, Read, Update and Update Maternity Exemption Certificates
 
 **Getting started**
 
