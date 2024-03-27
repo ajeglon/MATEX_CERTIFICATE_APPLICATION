@@ -7,7 +7,7 @@ An application to be used by NHSBSA employees to Create, Read, Update and Update
 
 **Admin User: Admin**
 
-**Admin Password: MATEXADMINn**
+**Admin Password: MATEXADMIN**
 
 **Requirements:**
 - [python](https://www.python.org)
